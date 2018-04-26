@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Psychic!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  </head>
+  <body>
+    <br>
+    <br>
+    <h1 class="text-center">PSYCHIC!</h1>
+    <br>
+    <div class="container jumbotron mt-lg-5">
+      <div class="row">
+        <div class="col-md-12" id="game">
+          <p class="text-center">Press a lower case letter to start playing!</p>
+          <p>You have made <span id="guesses">0</span> guesses!</p>
+          <p>You have won <span id="wins">0</span> times!</p>
+          <p>I'm excited! Aren't you excited! Yay!!!!!!</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+    var computerChoices = "abcdefghijklmnopqrstuvwxyz";
+
+    // Creating variables to hold the number of wins, losses, and ties. They start at 0.
+    var wins = 0;
+    var lastComputerGuess = "";
+    var guesses = 0;
+    var bestGuesses = 255;
+    var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+
+    // This function is run whenever the user presses a key.
+    document.onkeyup = function(event){
+      var userGuess = event.key;
+
+      if (userGuess === computerGuess){
+        guesses++;
+        wins++;
+        var html = "<p class='text-center font-weight-bold'>You won!</p> + <p class='text-center font-weight-bold'>The computer chose: " + computerGuess + "</p>" + "<p class='text-center font-weight-bold'>You did it in "+ guesses + " guesses!</p>";
+        document.querySelector("#game").innerHTML = html;
+
+        if (guesses < bestGuesses) {
+          bestGuesses = guesses;
+        }
+        guesses = 0;
+        lastComputerGuess = computerGuess;
+        computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+
+
+      }
+      else if ((userGuess !== computerGuess) && (computerChoices.includes(userGuess))){
+        guesses++;
+        var html =
+        "<p class='text-center font-weight-bold'>You chose: " + userGuess + "</p>" +
+
+        "<p class='text-center font-weight-bold'>wins: " + wins + "</p>" +
+        "<p class='text-center font-weight-bold'>guesses: " + guesses + "</p>";
+
+        if (wins > 0){
+          html = html +
+          "<p class='text-center font-weight-bold'>last computer choice: " + lastComputerGuess + "</p>" +
+          "<p class='text-center font-weight-bold'>best score so far: " + bestGuesses + "</p>";
+        }
+
+        document.querySelector("#game").innerHTML = html;
+      }
+      else {
+        document.querySelector("#game").innerHTML = "<h3 class='text-center'> Please pick the correct letter or go away! </h3>" + "<img class='img-responsive mx-auto d-block' src='https://img.buzzfeed.com/buzzfeed-static/static/2017-12/13/19/asset/buzzfeed-prod-web-10/anigif_sub-buzz-11964-1513213129-5.gif?downsize=715:*&output-format=auto&output-quality=auto'>"
+      }
+    };
+
+
+    </script>
+
+  </body>
+</html>
